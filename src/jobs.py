@@ -34,4 +34,4 @@ def read(path):
     """
 
 
-read('/home/luiz/Trybe/sd-010-a-project-job-insights/src/jobs.csv')
+#  read('/home/luiz/Trybe/sd-010-a-project-job-insights/src/jobs.csv')
