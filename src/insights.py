@@ -1,4 +1,13 @@
+from .jobs import read
+
+
 def get_unique_job_types(path):
+    list_of_job_types = set()
+    data = read(path)
+    for job in data:
+        list_of_job_types.add(job['job_type'])
+    return list_of_job_types
+
     """Checks all different job types and returns a list of them
 
     Must call `read`
@@ -13,10 +22,16 @@ def get_unique_job_types(path):
     list
         List of unique job types
     """
-    return []
 
 
 def filter_by_job_type(jobs, job_type):
+
+    list_of_jobs_by_type = []
+    for job in jobs:
+        if job['job_type'] == job_type:
+            list_of_jobs_by_type.append(job)
+    return list_of_jobs_by_type
+
     """Filters a list of jobs by job_type
 
     Parameters
@@ -31,10 +46,17 @@ def filter_by_job_type(jobs, job_type):
     list
         List of jobs with provided job_type
     """
-    return []
 
 
 def get_unique_industries(path):
+
+    list_0f_job_industries = set()
+    data = read(path)
+    for job in data:
+        if job['industry'] is not None and job['industry'] != '':
+            list_0f_job_industries.add(job['industry'])
+    return list_0f_job_industries
+
     """Checks all different industries and returns a list of them
 
     Must call `read`
@@ -49,10 +71,16 @@ def get_unique_industries(path):
     list
         List of unique industries
     """
-    return []
 
 
 def filter_by_industry(jobs, industry):
+
+    list_of_jobs_by_industry = []
+    for job in jobs:
+        if job['industry'] == industry:
+            list_of_jobs_by_industry.append(job)
+    return list_of_jobs_by_industry
+
     """Filters a list of jobs by industry
 
     Parameters
@@ -67,10 +95,18 @@ def filter_by_industry(jobs, industry):
     list
         List of jobs with provided industry
     """
-    return []
 
 
 def get_max_salary(path):
+
+    max_salary = 0
+    data = read(path)
+    for job in data:
+        if job['max_salary'].isnumeric():
+            if int(job['max_salary']) > max_salary:
+                max_salary = int(job['max_salary'])
+    return max_salary
+
     """Get the maximum salary of all jobs
 
     Must call `read`
@@ -89,6 +125,13 @@ def get_max_salary(path):
 
 
 def get_min_salary(path):
+
+    list_of_min_salaries = []
+    data = read(path)
+    for job in data:
+        if job['min_salary'].isnumeric():
+            list_of_min_salaries.append(int(job['min_salary']))
+    return min(list_of_min_salaries)
     """Get the minimum salary of all jobs
 
     Must call `read`
@@ -107,6 +150,21 @@ def get_min_salary(path):
 
 
 def matches_salary_range(job, salary):
+
+    if (
+        'max_salary' not in job
+        or 'min_salary' not in job
+        or type(job['max_salary']) != int
+        or type(job['min_salary']) != int
+        or job['min_salary'] > job['max_salary']
+        or type(salary) != int
+    ):
+        raise ValueError
+    if job['min_salary'] <= salary <= job['max_salary']:
+        return True
+    if salary < job['min_salary'] or salary > job['max_salary']:
+        return False
+
     """Checks if a given salary is in the salary range of a given job
 
     Parameters
