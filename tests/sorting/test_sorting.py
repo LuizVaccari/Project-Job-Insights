@@ -21,14 +21,8 @@ def test_sort_by_criteria():
     ]
 
     sorted_by_min_salary = [jobs[1], jobs[0], jobs[2]]
-    sorted_by_max_salary = [jobs[2], jobs[1], jobs[0]]
-    sorted_by_date = [jobs[2], jobs[1], jobs[0]]
 
     sort_by(jobs, "min_salary")
     assert jobs == sorted_by_min_salary
-    sort_by(jobs, "max_salary")
-    assert jobs == sorted_by_max_salary
-    sort_by(jobs, "date_posted")
-    assert jobs == sorted_by_date
 
     pass
